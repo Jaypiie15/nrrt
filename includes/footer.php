@@ -8,9 +8,9 @@
         <!-- /footer content -->
       </div>
     </div>
-
     <script src="vendors/validator/multifield.js"></script>
     <script src="vendors/validator/validator.js"></script>
+
     <!-- jQuery -->
     <script src="vendors/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
@@ -57,100 +57,4 @@
   </body>
 </html>
 
-<script>
-    $(function() {
-        var date = new Date(),
-        d = date.getDate(),
-        m = date.getMonth(),
-        y = date.getFullYear(),
-        started,
-        categoryClass;
-    var calendar = $('#calendars').fullCalendar({
-    themeSystem: 'bootstrap3',
-    header: {
-      left: false,
-      center: 'prev title next',
-      right: false
-    },
-    height: 'parent',
 
-        eventClick: function (calEvent, jsEvent, view) {
-            $('#fc_edit').click();
-            $('#title2').val(calEvent.title);
-            categoryClass = $("#event_type").val();
-
-            $(".antosubmit2").on("click", function () {
-                calEvent.title = $("#title2").val();
-
-                calendar.fullCalendar('updateEvent', calEvent);
-                $('.antoclose2').click();
-            });
-
-            calendar.fullCalendar('unselect');
-        },
-    // eventLimit: true, // allow "more" link when too many events
-    events: 'https://fullcalendar.io/demo-events.json',
-  
-    
-  });
-
-          // initialize a validator instance from the "FormValidator" constructor.
-        // A "<form>" element is optionally passed as an argument, but is not a must
-        var validator = new FormValidator({
-            "events": ['blur', 'input', 'change']
-        }, document.forms[0]);
-        // on form "submit" event
-        document.forms[0].onsubmit = function(e) {
-            var submit = true,
-                validatorResult = validator.checkAll(this);
-            console.log(validatorResult);
-            return !!validatorResult.valid;
-        };
-        // on form "reset" event
-        document.forms[0].onreset = function(e) {
-            validator.reset();
-        };
-        // stuff related ONLY for this demo page:
-        $('.toggleValidationTooltips').change(function() {
-            validator.settings.alerts = !this.checked;
-            if (this.checked)
-                $('form .alert').remove();
-        }).prop('checked', false);
-
-$('.startdate').daterangepicker({
-    singleDatePicker: true,
-    minDate:new Date(),
-
-});
-$('.enddate').daterangepicker({
-    singleDatePicker: true,
-    minDate:new Date(),
-
-});
-$('.starttime').daterangepicker({
-    timePicker : true,
-            singleDatePicker:true,
-            timePicker24Hour : true,
-            timePickerIncrement : 1,
-            timePickerSeconds : true,
-            locale : {
-                format : 'HH:mm'
-            }
-        }).on('show.daterangepicker', function(ev, picker) {
-            picker.container.find(".calendar-table").hide();
-    });
-    $('.endtime').daterangepicker({
-    timePicker : true,
-            singleDatePicker:true,
-            timePicker24Hour : true,
-            timePickerIncrement : 1,
-            timePickerSeconds : true,
-            locale : {
-                format : 'HH:mm'
-            }
-        }).on('show.daterangepicker', function(ev, picker) {
-            picker.container.find(".calendar-table").hide();
-    });
-});
-
-</script>

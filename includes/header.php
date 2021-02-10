@@ -30,12 +30,15 @@
     <link href="vendors/fullcalendar/dist/fullcalendar.print.css" rel="stylesheet" media="print">
     <!-- Custom Theme Style -->
     <link href="build/css/custom.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
     <style>
         .fc-event {
             background-color : #99dacb;
         }
     </style>
   </head>
+
 
   <body class="nav-md">
     <div class="container body">
