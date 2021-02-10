@@ -12,6 +12,10 @@ switch ($page) {
     require 'pages/index.php';
   break;
 
+  case 'redirect';
+  require 'includes/redirect.php';
+  break;
+
   case 'index';
     require 'pages/index.php';
   break;
