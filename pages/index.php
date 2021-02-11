@@ -181,7 +181,7 @@
         </div>
           <!-- /top tiles -->
     <!-- calendar modal -->
-    <div id="CalenderModalEdit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div id="CalenderModalEdit" class="modal fade CalenderModalEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
 
@@ -196,44 +196,44 @@
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Event title</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" id="event_title" name="title2" disabled>
+                    <input type="text" class="form-control event_title" id="event_title" name="event_title" disabled>
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Event Description</label>
                   <div class="col-sm-9">
-                    <textarea class="form-control" style="height:55px;" id="event_desc" name="descr" disabled></textarea>
+                    <textarea class="form-control event_desc" style="height:55px;" id="event_desc" name="descr" disabled></textarea>
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Organizer</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" id="event_organizer" name="event_organizer" disabled>
+                    <input type="text" class="form-control event_organizer" id="event_organizer" name="event_organizer" disabled>
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Start Time</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" id="event_startTime" name="event_startTime" disabled>
+                    <input type="text" class="form-control event_startTime" id="event_startTime" name="event_startTime" disabled>
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-3 control-label">End Time</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" id="event_endTime" name="event_endTime" disabled>
+                    <input type="text" class="form-control event_endTime" id="event_endTime" name="event_endTime" disabled>
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Venue</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" id="event_venue" name="event_venue" disabled>
+                    <input type="text" class="form-control event_venue" id="event_venue" name="event_venue" disabled>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Resources</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" id="event_resources" name="event_resources" disabled>
+                    <input type="text" class="form-control event_resources" id="event_resources" name="event_resources" disabled>
                   </div>
                 </div>
               </form>
@@ -245,7 +245,7 @@
         </div>
       </div>
     </div>
-    <div id="fc_edit" data-toggle="modal" data-target="#CalenderModalEdit"></div>
+    <div id="fc_edit" class="fc_edit" data-toggle="modal" data-target="#CalenderModalEdit"></div>
 
 
 
@@ -259,64 +259,81 @@
 <script>
     $(function() {
 
-                // initialize a validator instance from the "FormValidator" constructor.
-        // A "<form>" element is optionally passed as an argument, but is not a must
-        // var validator = new FormValidator({
-        //     "events": ['blur', 'input', 'change']
-        // }, document.forms[0]);
-        // // on form "submit" event
-        // document.forms[0].onsubmit = function(e) {
-        //     var submit = true,
-        //         validatorResult = validator.checkAll(this);
-        //     // console.log(validatorResult);
-        //     return !!validatorResult.valid;
-        // };
-        // // on form "reset" event
-        // document.forms[0].onreset = function(e) {
-        //     validator.reset();
-        // };
-        // // stuff related ONLY for this demo page:
-        // $('.toggleValidationTooltips').change(function() {
-        //     validator.settings.alerts = !this.checked;
-        //     if (this.checked)
-        //         $('form .alert').remove();
-        // }).prop('checked', false);
-
-
-        var date = new Date(),
+      var date = new Date(),
         d = date.getDate(),
         m = date.getMonth(),
         y = date.getFullYear(),
         started,
         categoryClass;
-    var calendar = $('#calendars').fullCalendar({
-    themeSystem: 'bootstrap3',
-    header: {
-      left: false,
-      center: 'prev title next',
-      right: false
-    },
-    height: 'parent',
+        
+      $.ajax({
+          type : 'POST',
+          url : 'redirect',
+          data : { function : 'fetch_events'},
+          dataType: "json",
+      success : function(res){
+            var calendar = $('#calendars').fullCalendar({
+              themeSystem: 'bootstrap3',
+              header: {
+                left: false,
+                center: 'prev title next',
+                right: false
+              },
+              height: 'parent',
 
         eventClick: function (calEvent, jsEvent, view) {
-            $('#fc_edit').click();
-            $('#title2').val(calEvent.title);
-            categoryClass = $("#event_type").val();
 
-            $(".antosubmit2").on("click", function () {
-                calEvent.title = $("#title2").val();
+            // console.log(calEvent)
+            // $('#fc_edit').click();
+             $('.CalenderModalEdit').addClass('modal-edit-'+calEvent.id)
+             $('.event_title').addClass('event-title-'+calEvent.id);
+             $('.event_desc').addClass('event-desc-'+calEvent.id);
+             $('.event_organizer').addClass('event-organizer-'+calEvent.id);
+             $('.event_startTime').addClass('event-startTime-'+calEvent.id);
+             $('.event_endTime').addClass('event-endTime-'+calEvent.id);
+             $('.event_venue').addClass('event-venue-'+calEvent.id);
+             $('.event_resources').addClass('event-resources-'+calEvent.id);
 
-                calendar.fullCalendar('updateEvent', calEvent);
-                $('.antoclose2').click();
-            });
+             $('.modal-edit-'+calEvent.id).modal('show')
+
+            $.each(res,function(k,v){
+
+              $('.event-title-'+v.id).val(v.title);
+              $('.event-desc-'+v.id).val(v.desc);
+              $('.event-organizer-'+v.id).val(v.name);
+              $('.event-startTime-'+v.id).val(v.startTime);
+              $('.event-endTime-'+v.id).val(v.endTime);
+              $('.event-venue-'+v.id).val(v.venue);
+              $('.event-resources-'+v.id).val(v.resources);
+
+              $('.antoclose2').click(function(){
+                $('.CalenderModalEdit').removeClass('modal-edit-'+calEvent.id)
+                $('.event_title').removeClass('event-title-'+calEvent.id);
+                $('.event_desc').removeClass('event-desc-'+calEvent.id);
+                $('.event_organizer').removeClass('event-organizer-'+calEvent.id);
+                $('.event_startTime').removeClass('event-startTime-'+calEvent.id);
+                $('.event_endTime').removeClass('event-endTime-'+calEvent.id);
+                $('.event_venue').removeClass('event-venue-'+calEvent.id);
+                $('.event_resources').removeClass('event-resources-'+calEvent.id);
+              })
+
 
             calendar.fullCalendar('unselect');
+   
+
+          })
+
+
         },
-    // eventLimit: true, // allow "more" link when too many events
-    events: 'https://fullcalendar.io/demo-events.json',
-  
-    
-  });
+        events : res
+        });
+
+          }
+      })
+
+
+
+
 
 
 

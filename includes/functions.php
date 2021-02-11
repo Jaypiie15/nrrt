@@ -37,7 +37,7 @@ try {
     while($row = $latest_fetch->fetch_object()) {
         $transaction = $row->transaction_number;
     }
-    $transaction_id = $transaction + 1;
+    $transaction_id = $transaction + 1; 
 
     if(empty($email) || empty($division) || empty($name) || empty($number) || empty($title) || empty($title) || empty($description)){
                 echo json_encode(array('message' => 'Input not complete'));die;
@@ -134,17 +134,36 @@ try {
                             echo json_encode(array('message' => 'Input Success','transaction_id' => $transaction_id));
             }
 
-
-
-
-
-
 } catch (Exception $e) {
     echo 'Caught exception: ',  $e->getMessage(), "\n";
 }
 
 }
 
+function fetch_events(){
+
+    global $db;
+
+    $fetch = $db->query("SELECT id,activity_title,activity_desc,organizer_name,
+                         start_time,end_time,resources,venue,startdate,end_date 
+                         FROM reservations");
+    $rows = array();
+    while($r = $fetch->fetch_object()){
+        $rows[] = array(
+                                'id' => $r->id,
+                                'title' => $r->activity_title,
+                                'start' => date('Y-m-d',strtotime($r->startdate)),
+                                'end' => date('Y-m-d',strtotime($r->end_date)),
+                                'desc' => $r->activity_desc,
+                                'name' => $r->organizer_name,
+                                'startTime' => $r->start_time,
+                                'endTime' => $r->end_time,
+                                'venue' => $r->venue,
+                                'resources' => $r->resources
+        );
+    }
+    print json_encode($rows);
+}
 
 
 
