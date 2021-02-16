@@ -33,6 +33,10 @@ switch($function) {
         counting();
     break;
 
+    case 'track_rrr':
+        track_rrr();
+    break;
+
     default :
     die(json_encode(array('message' => 'Function not existing')));
     break;

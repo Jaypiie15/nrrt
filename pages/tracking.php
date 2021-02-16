@@ -25,16 +25,19 @@
                       
                   <div class="col-md-12 col-sm-12 ">
 							<div class="x_panel">
-					
+              <div id='loader' style='display: none;position: absolute;z-index: 10;margin-left: 647px;margin-top: 240px;'>
+              <img src='build/images/loading.gif' width='300px' height='300px'>
+            </div>
 								<div class="x_content">
 									<br />
-									<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+									<form id="rrr_form" method="POST" action="" data-parsley-validate class="form-horizontal form-label-left">
+                  <input type="hidden" name="function" value="track_rrr">
 
 										<div class="item form-group">
 											<label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">RRR No. <span class="required">*</span>
 											</label>
 											<div class="col-md-6 col-sm-6 ">
-												<input type="text" id="first-name" required="required" class="form-control ">
+												<input type="text" id="rrr" name="rrr" required="required" class="form-control ">
 											</div>
 										</div>
 
@@ -64,55 +67,9 @@
                   <div class="x_content">
 
 
-                    <div class="table-responsive">
-                      <table class="table table-striped jambo_table bulk_action">
-                        <thead>
-                          <tr class="headings">
-           
-                            <th class="column-title">RRR No. </th>
-                            <th class="column-title">Event Date </th>
-                            <th class="column-title">Event Name </th>
-                            <th class="column-title">Organizer Name </th>
-                            <th class="column-title">Status </th>
-                            <th class="column-title">Venue </th>
-                            <th class="column-title no-link last"><span class="nobr">Action</span>
-                            </th>
-                            <th class="bulk-actions" colspan="7">
-                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
-                            </th>
-                          </tr>
-                        </thead>
+                    <div class="table-responsive ">
+                        <div id="track_table"></div>
 
-                        <tbody>
-                          <tr class="even pointer">
-
-                            <td class=" ">121000040</td>
-                            <td class=" ">May 23, 2014 11:47:56 PM </td>
-                            <td class=" ">MTV Meeting </td>
-                            <td class=" ">John Blank L</td>
-                            <td class=""><span class="badge badge-warning">Pending</span></td>
-                            <td class="a-right a-right ">ARD Room</td>
-                            <td class=" last"><a href="#" class="btn btn-primary btn-sm">Follow up <i class="fa fa-envelope"></i></a><a href="#" class="btn btn-info btn-sm">Reschedule <i class="fa fa-calendar"></i></a><a href="#" class="btn btn-danger btn-sm">Cancel <i class="fa fa-times"></i></a>
-                            </td>
-                          </tr>
-                          <tr class="odd pointer">
-
-                            <td class=" ">121000039</td>
-                            <td class=" ">May 23, 2014 11:30:12 PM</td>
-                            <td class=" ">Senate Hearing </td>
-                            <td class=" ">OED</td>
-                            <td class=" "><span class="badge badge-success">Approved</span></td>
-                            <td class="a-right a-right ">MIB Room</td>
-                            <td class=" last">
-                            <a href="#" class="btn btn-primary btn-sm">Follow up <i class="fa fa-envelope"></i></a>
-                            <a href="#" class="btn btn-info btn-sm">Reschedule <i class="fa fa-calendar"></i></a>
-                            <a href="#" class="btn btn-danger btn-sm">Cancel <i class="fa fa-times"></i></a>
-
-                            </td>
-                          </tr>
-  
-                        </tbody>
-                      </table>
                     </div>
 							
 						
@@ -137,3 +94,42 @@
         <!-- /page content -->
 
 <?php include 'includes/footer.php';?>
+
+<script>
+$(function(){
+
+
+    // $.ajax({
+    //         type : 'POST',
+    //         url : 'redirect',
+    //         dataType : 'json',
+    //         data : {function : 'track_rrr',rrr : '1234'},
+    //         complete : function(res){
+    //             $('#track_table').html(res.responseText);
+    //         }
+    //       })
+
+  $('#track_search').click( e => {
+        var form = $('#rrr_form').serialize();
+        e.preventDefault();
+
+        $.ajax({
+            type : 'POST',
+            url : 'redirect',
+            // dataType : 'json',
+            data : form,
+            beforeSend : function(){
+              $("#loader").show();
+            },
+            success : function(res){
+              $("#loader").hide();
+                $('#track_table').html(res);
+
+            }
+
+        })
+
+  })
+})
+
+</script>

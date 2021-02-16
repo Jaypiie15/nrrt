@@ -26,10 +26,7 @@ try {
     $endtime = $db->real_escape_string($_POST['endtime']); 
     $message = $db->real_escape_string($_POST['message']);
     $resources = implode(',', $_POST['devices']);
-    $str = 'ABCDEFGHIJKLMNPQRSTUVWXYZ1234567890';
-    // a-z 0-9 A-Z in above string
-    // $shuffled = str_shuffle($str);
-    // $transaction_id = substr($shuffled,1,6);
+
     $activity_status = 'Pending';
     $date_requested = date('m/d/y');
 
@@ -500,6 +497,117 @@ function counting(){
                                             'total' => $total
                             );
                         print json_encode($rows);
+}
+
+function track_rrr(){
+
+    global $db;
+
+
+
+    $rrr = $db->real_escape_string($_POST['rrr']);
+    $now = date('m/d/Y',strtotime('now'));
+
+    $query = $db->query("SELECT * FROM reservations WHERE transaction_number = ".$rrr." AND
+                         activity_status != 'Cancelled' AND startdate >= '$now'");
+
+    $check = $query->num_rows;
+
+
+            if($check < 1){
+                     echo '
+                     <tbody>
+                     <tr class="even pointer">
+   
+                       <td class=" "><b>No data found!</b></td>
+                       </tr>
+                       </tbody>
+                    ';?>
+                       <script>
+                         Swal.fire({
+                                              icon: 'error',
+                                              title: 'Search Error!',
+                                              text: 'RRR No. has expired. The activity must be Done or Cancelled.',
+                                              footer: '<h3><b><a href="tracking">Close</a></b></h3>',
+                                              showConfirmButton:false
+                                              })
+                       </script>
+                   <?php 
+            }
+            else{
+                
+            $r = $query->fetch_object();
+     
+                                $id = $r->id;
+                                $startdate = $r->startdate;
+                                $start_time = $r->start_time;
+                                $activity_title = $r->activity_title;
+                                $organizer_name= $r->organizer_name;
+                                $status = $r->activity_status;
+                                $transaction_id = $r->transaction_number;
+                                $venue = $r->venue;
+
+                                switch($status){
+                                    case 'Approved':
+                                        $statu = '<span class="badge badge-success">Approved</span>';
+                                    break;
+                                    case 'Rescheduled':
+                                        $statu = '<span class="badge badge-warning">Rescheduled</span>';
+                                    break;
+                        
+                        
+                                    case 'Follow up':
+                                        $statu = '<span class="badge badge-info">For Follow up</span>';
+                                    break;
+                        
+                                    default :
+                                    $statu = '<span class="badge badge-warning">Pending</span>';
+                        
+                                    break;
+                                }
+
+                echo '
+                <table class="table table-striped jambo_table bulk_action">
+                <thead>
+                  <tr class="headings">
+            
+                    <th class="column-title">RRR No. </th>
+                    <th class="column-title">Event Date </th>
+                    <th class="column-title">Event Name </th>
+                    <th class="column-title">Organizer Name </th>
+                    <th class="column-title">Status </th>
+                    <th class="column-title">Venue </th>
+                    <th class="column-title no-link last"><span class="nobr">Action</span>
+                    </th>
+                    <th class="bulk-actions" colspan="7">
+                      <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr class="even pointer">
+
+                    <td class=" ">'.$transaction_id.'</td>
+                    <td class=" ">'.date('F j, Y',strtotime($startdate)). ' '.date('g:i a',strtotime($start_time)).' </td>
+                    <td class=" ">'.$activity_title.' </td>
+                    <td class=" ">'.$organizer_name.'</td>
+                    <td class="">'.$statu.'</td>
+                    <td class="a-right a-right ">'.$venue.'</td>
+                    <td class=" last"><a href="#" class="btn btn-primary btn-sm">Follow up <i class="fa fa-envelope"></i></a><a href="#" class="btn btn-info btn-sm">Reschedule <i class="fa fa-calendar"></i></a><a href="#" class="btn btn-danger btn-sm">Cancel <i class="fa fa-times"></i></a>
+                    </td>
+                  </tr>
+                  </tbody>
+                
+                
+                
+                ';
+            
+            
+
+            echo '</table>';
+        }
+
 }
 
 
