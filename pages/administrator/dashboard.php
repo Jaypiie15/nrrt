@@ -28,27 +28,27 @@
                     <div class="tile_count">
                       <div class="col-md-2 col-sm-4  tile_stats_count">
                         <span class="count_top"><i class="fa fa-redo"></i> Pending</span>
-                        <div class="count">2500</div>
+                        <div class="count pending_count"></div>
                       </div>
                       <div class="col-md-2 col-sm-4  tile_stats_count">
                         <span class="count_top"><i class="fa fa-arrow-circle-up"></i> Follow up</span>
-                        <div class="count">123</div>
+                        <div class="count followup_count"></div>
                       </div>
                       <div class="col-md-2 col-sm-4  tile_stats_count">
                         <span class="count_top"><i class="fa fa-check-circle"></i> Approved</span>
-                        <div class="count green">2,500</div>
+                        <div class="count approved_count"></div>
                       </div>
                       <div class="col-md-2 col-sm-4  tile_stats_count">
                         <span class="count_top"><i class="fa fa-times"></i> Cancelled</span>
-                        <div class="count">4,567</div>
+                        <div class="count cancelled_count"></div>
                       </div>
                       <div class="col-md-2 col-sm-4  tile_stats_count">
                         <span class="count_top"><i class="fa fa-calendar"></i> Rescheduled</span>
-                        <div class="count">2,315</div>
+                        <div class="count rescheduled_count"></div>
                       </div>
                       <div class="col-md-2 col-sm-4  tile_stats_count">
-                        <span class="count_top"><i class="fa fa-user"></i> Overall Total</span>
-                        <div class="count">7,325</div>
+                        <span class="count_top"><i class="fa fa-user"></i> Total</span>
+                        <div class="count green total_count"></div>
                       </div>
                     </div>
                   </div>
@@ -75,53 +75,7 @@
 
 
                     <div class="table-responsive">
-                      <table class="table table-striped jambo_table bulk_action">
-                        <thead>
-                          <tr class="headings">
-           
-                            <th class="column-title">RRR No. </th>
-                            <th class="column-title">Event Date </th>
-                            <th class="column-title">Event Name </th>
-                            <th class="column-title">Organizer Name </th>
-                            <th class="column-title">Status </th>
-                            <th class="column-title">Venue </th>
-                            <th class="column-title no-link last"><span class="nobr">Action</span>
-                            </th>
-                            <th class="bulk-actions" colspan="7">
-                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
-                            </th>
-                          </tr>
-                        </thead>
-
-                        <tbody>
-                          <tr class="even pointer">
-
-                            <td class=" ">121000040</td>
-                            <td class=" ">May 23, 2014 11:47:56 PM </td>
-                            <td class=" ">MTV Meeting </td>
-                            <td class=" ">John Blank L</td>
-                            <td class=""><span class="badge badge-warning">Pending</span></td>
-                            <td class="a-right a-right ">ARD Room</td>
-                            <td class=" last"><a href="#" class="btn btn-info btn-sm">View</a>
-                            </td>
-                          </tr>
-                          <tr class="odd pointer">
-
-                            <td class=" ">121000039</td>
-                            <td class=" ">May 23, 2014 11:30:12 PM</td>
-                            <td class=" ">Senate Hearing </td>
-                            <td class=" ">OED</td>
-                            <td class=" "><span class="badge badge-success">Approved</span></td>
-                            <td class="a-right a-right ">MIB Room</td>
-                            <td class=" last">
-                            <a href="#" class="btn btn-info btn-sm">View </a>
-
-
-                            </td>
-                          </tr>
-  
-                        </tbody>
-                      </table>
+                      <div id="reservations"></div>
                     </div>
 							
 						
@@ -137,7 +91,7 @@
         </div>
           <!-- /top tiles -->
     <!-- calendar modal -->
-    <div id="CalenderModalEdit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div id="CalenderModalEdit" class="modal fade CalenderModalEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
 
@@ -148,44 +102,56 @@
 
             <div id="testmodal2" style="padding: 5px 20px;">
               <form id="antoform2" class="form-horizontal calender" role="form">
+
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Event title</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" id="event_title" name="title2" disabled>
+                    <input type="text" class="form-control event_title" id="event_title" name="event_title" disabled>
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Event Description</label>
                   <div class="col-sm-9">
-                    <textarea class="form-control" style="height:55px;" id="event_desc" name="descr" disabled></textarea>
+                    <textarea class="form-control event_desc" style="height:55px;" id="event_desc" name="descr" disabled></textarea>
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Organizer</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" id="event_organizer" name="title2" disabled>
+                    <input type="text" class="form-control event_organizer" id="event_organizer" name="event_organizer" disabled>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Division</label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control event_division" id="event_division" name="event_division" disabled>
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Start Time</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" id="event_startTime" name="title2" disabled>
+                    <input type="text" class="form-control event_startTime" id="event_startTime" name="event_startTime" disabled>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">End Time</label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control event_endTime" id="event_endTime" name="event_endTime" disabled>
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Venue</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" id="event_venue" name="title2" disabled>
+                    <input type="text" class="form-control event_venue" id="event_venue" name="event_venue" disabled>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Resources</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control" id="event_resources" name="title2" disabled>
+                    <input type="text" class="form-control event_resources" id="event_resources" name="event_resources" disabled>
                   </div>
                 </div>
-
               </form>
             </div>
           </div>
@@ -195,7 +161,7 @@
         </div>
       </div>
     </div>
-    <div id="fc_edit" data-toggle="modal" data-target="#CalenderModalEdit"></div>
+    <div id="fc_edit" class="fc_edit" data-toggle="modal" data-target="#CalenderModalEdit"></div>
 
 
 
@@ -206,3 +172,139 @@
         <!-- /page content -->
 
 <?php include 'pages/administrator/includes/footer.php';?>
+<script>
+    $(function() {
+
+      fetch_request();
+      counting();
+
+      var date = new Date(),
+        d = date.getDate(),
+        m = date.getMonth(),
+        y = date.getFullYear(),
+        started,
+        categoryClass;
+        
+      $.ajax({
+          type : 'POST',
+          url : 'redirect',
+          data : { function : 'fetch_events'},
+          dataType: "json",
+      success : function(res){
+            var calendar = $('#calendars').fullCalendar({
+              themeSystem: 'bootstrap3',
+              header: {
+                left: false,
+                center: 'prev title next',
+                right: false
+              },
+              height: 'parent',
+
+        eventClick: function (calEvent, jsEvent, view) {
+
+            // console.log(calEvent)
+            // $('#fc_edit').click();
+             $('.CalenderModalEdit').addClass('modal-edit-'+calEvent.id)
+             $('.event_title').addClass('event-title-'+calEvent.id);
+             $('.event_desc').addClass('event-desc-'+calEvent.id);
+             $('.event_organizer').addClass('event-organizer-'+calEvent.id);
+             $('.event_startTime').addClass('event-startTime-'+calEvent.id);
+             $('.event_endTime').addClass('event-endTime-'+calEvent.id);
+             $('.event_venue').addClass('event-venue-'+calEvent.id);
+             $('.event_resources').addClass('event-resources-'+calEvent.id);
+             $('.event_division').addClass('event-division-'+calEvent.id);
+
+             $('.modal-edit-'+calEvent.id).modal('show')
+
+            $.each(res,function(k,v){
+
+              $('.event-title-'+v.id).val(v.title);
+              $('.event-desc-'+v.id).val(v.desc);
+              $('.event-organizer-'+v.id).val(v.name);
+              $('.event-startTime-'+v.id).val(v.startTime);
+              $('.event-endTime-'+v.id).val(v.endTime);
+              $('.event-venue-'+v.id).val(v.venue);
+              $('.event-resources-'+v.id).val(v.resources);
+              $('.event-division-'+v.id).val(v.division);
+
+              $('.antoclose2').click(function(){
+                $('.CalenderModalEdit').removeClass('modal-edit-'+calEvent.id)
+                $('.event_title').removeClass('event-title-'+calEvent.id);
+                $('.event_desc').removeClass('event-desc-'+calEvent.id);
+                $('.event_organizer').removeClass('event-organizer-'+calEvent.id);
+                $('.event_startTime').removeClass('event-startTime-'+calEvent.id);
+                $('.event_endTime').removeClass('event-endTime-'+calEvent.id);
+                $('.event_venue').removeClass('event-venue-'+calEvent.id);
+                $('.event_resources').removeClass('event-resources-'+calEvent.id);
+                $('.event_division').removeClass('event-division-'+calEvent.id);
+              })
+
+
+            calendar.fullCalendar('unselect');
+   
+
+          })
+
+
+        },
+        events : res
+        });
+
+          }
+      })
+   
+function fetch_request (){
+  
+      $.ajax({
+          type : 'POST',
+          url : 'redirect',
+          data : {function : 'fetch_request'},
+          success : function(res){
+            $("#reservations").append(res); 
+
+            $('.btn-edits').on('click',function() {
+                // sessionStorage.setItem("res_id",$(this).val());
+                document.cookie = "res_id="+$(this).val();"path=/";
+                window.location = "edit-event";
+                // $.ajax({
+                //     type : 'POST',
+                //     url : 'redirect',
+                //     data : { function : 'edit-event', res_id : $(this).val() },
+                //     success : function(response){
+                //        console.log(response)
+                //     }
+                // })
+      })
+
+          }
+      })
+    }
+
+    function counting(){
+
+      $.ajax({
+          type : 'POST',
+          url : 'redirect',
+          dataType :'json',
+          data : {function : 'counting'},
+          success : function(res){
+            // console.log(res)
+            $('.pending_count').text(res[0].pending)
+            $('.followup_count').text(res[0].follow)
+            $('.approved_count').text(res[0].approved)
+            $('.cancelled_count').text(res[0].cancelled)
+            $('.rescheduled_count').text(res[0].rescheduled)
+            $('.total_count').text(res[0].total)
+
+
+    }
+    
+
+
+
+    })
+  }
+
+})
+
+    </script>

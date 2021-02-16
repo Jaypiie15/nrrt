@@ -151,6 +151,8 @@
                                                                     
                                               <input type="checkbox" name="devices[vmic]" id="vmic" value="Boya" class="flat" /> Virtual Mic (Boya)
                                               <br />
+                                              <input type="checkbox" name="devices[hdmi]" id="hdmi" value="HDMI" class="flat" /> HDMI Cable
+                                              <br />
                                                                     
                                               <input type="checkbox" name="devices[none]" id="na" value="N/A" class="flat" /> N/A
                                         </div>
@@ -209,6 +211,12 @@
                   <label class="col-sm-3 control-label">Organizer</label>
                   <div class="col-sm-9">
                     <input type="text" class="form-control event_organizer" id="event_organizer" name="event_organizer" disabled>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Division</label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control event_division" id="event_division" name="event_division" disabled>
                   </div>
                 </div>
                 <div class="form-group">
@@ -285,7 +293,7 @@
 
             // console.log(calEvent)
             // $('#fc_edit').click();
-             $('.CalenderModalEdit').addClass('modal-edit-'+calEvent.id)
+            $('.CalenderModalEdit').addClass('modal-edit-'+calEvent.id)
              $('.event_title').addClass('event-title-'+calEvent.id);
              $('.event_desc').addClass('event-desc-'+calEvent.id);
              $('.event_organizer').addClass('event-organizer-'+calEvent.id);
@@ -293,6 +301,7 @@
              $('.event_endTime').addClass('event-endTime-'+calEvent.id);
              $('.event_venue').addClass('event-venue-'+calEvent.id);
              $('.event_resources').addClass('event-resources-'+calEvent.id);
+             $('.event_division').addClass('event-division-'+calEvent.id);
 
              $('.modal-edit-'+calEvent.id).modal('show')
 
@@ -305,6 +314,7 @@
               $('.event-endTime-'+v.id).val(v.endTime);
               $('.event-venue-'+v.id).val(v.venue);
               $('.event-resources-'+v.id).val(v.resources);
+              $('.event-division-'+v.id).val(v.division);
 
               $('.antoclose2').click(function(){
                 $('.CalenderModalEdit').removeClass('modal-edit-'+calEvent.id)
@@ -315,6 +325,7 @@
                 $('.event_endTime').removeClass('event-endTime-'+calEvent.id);
                 $('.event_venue').removeClass('event-venue-'+calEvent.id);
                 $('.event_resources').removeClass('event-resources-'+calEvent.id);
+                $('.event_division').removeClass('event-division-'+calEvent.id);
               })
 
 
@@ -430,28 +441,55 @@ $('.btn_submitRequest').click(e =>{
 
             else{
 
-            $.ajax({
-            type : 'POST',
-            url : 'redirect',
-            dataType: "json",
-            data :  form,
-            beforeSend : function(){
-              $("#loader").show();
-            },
-            complete : function(resp){
-              $("#loader").hide();
-                    Swal.fire({
-                      icon: 'success',
-                      title: 'RRR ID. : ' + resp.responseJSON.transaction_id,
-                      text: 'Input Success! Please copy the reference number above for activity status tracking. Please be also reminded that confirmation of this activity will be sent to your Email Address. Thank you.',
-                      footer: '<h3><b><a href="index">Close</a></b></h3>',
-                      showConfirmButton:false
+
+              Swal.fire({
+                  title: 'Are you sure you want to submit?',
+                  html : 'By submitting form, I am giving my consent to the collection, processing and disclosure of my personal information for the purposes of this conference in accordance with <b> R.A. 10173 (Data Privacy Act of 2012)</b>.',
+                  showCancelButton: true,
+                  confirmButtonText: `Yes`,
+                }).then((result) => {
+                  /* Read more about isConfirmed, isDenied below */
+                  if (result.isConfirmed) {
+                    $.ajax({
+                        type : 'POST',
+                        url : 'redirect',
+                        dataType: "json",
+                        data :  form,
+                        beforeSend : function(){
+                          $("#loader").show();
+                        },
+                        success : function(resp){
+                          $("#loader").hide();
+
+                          if(res.error == 1){
+
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'There is something wrong!',
+                                    text: res.message
+                                    })
+                                }else{
+
+                                  Swal.fire({
+                                  icon: 'success',
+                                  title: 'RRR ID. : ' + resp.responseJSON.transaction_id,
+                                  text: 'Input Success! Please copy the reference number above for activity status tracking. Please be also reminded that confirmation of this activity will be sent to your Email Address. Thank you.',
+                                  footer: '<h3><b><a href="index">Close</a></b></h3>',
+                                  showConfirmButton:false
+                                })
+
+                                }
+
+                        },
+                        error : function(res){
+                          // alert(res)
+                        }
                     })
-            },
-            error : function(res){
-              // alert(res)
-            }
-        })
+                  } else {
+                  }
+                })
+
+
       }
 
 

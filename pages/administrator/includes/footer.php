@@ -75,40 +75,7 @@
 
 <script>
     $(function() {
-        var date = new Date(),
-        d = date.getDate(),
-        m = date.getMonth(),
-        y = date.getFullYear(),
-        started,
-        categoryClass;
-    var calendar = $('#calendars').fullCalendar({
-    themeSystem: 'bootstrap3',
-    header: {
-      left: false,
-      center: 'prev title next',
-      right: false
-    },
-    height: 'parent',
 
-        eventClick: function (calEvent, jsEvent, view) {
-            $('#fc_edit').click();
-            $('#title2').val(calEvent.title);
-            categoryClass = $("#event_type").val();
-
-            $(".antosubmit2").on("click", function () {
-                calEvent.title = $("#title2").val();
-
-                calendar.fullCalendar('updateEvent', calEvent);
-                $('.antoclose2').click();
-            });
-
-            calendar.fullCalendar('unselect');
-        },
-    // eventLimit: true, // allow "more" link when too many events
-    events: 'https://fullcalendar.io/demo-events.json',
-  
-    
-  });
 
           // initialize a validator instance from the "FormValidator" constructor.
         // A "<form>" element is optionally passed as an argument, but is not a must
