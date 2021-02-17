@@ -36,7 +36,7 @@ try {
     
     $transaction_id = $transaction + 1; 
 
-    if(empty($email) || empty($division) || empty($name) || empty($number) || empty($title) || empty($title) || empty($description)){
+    if(empty($email) || empty($division) || empty($name) || empty($number) || empty($title)  || empty($description)){
                 echo json_encode(array('message' => 'Input not complete'));die;
     }
 

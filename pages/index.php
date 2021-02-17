@@ -460,19 +460,19 @@ $('.btn_submitRequest').click(e =>{
                         },
                         success : function(resp){
                           $("#loader").hide();
-
-                          if(res.error == 1){
+                          console.log(resp)
+                          if(resp.error == 1){
 
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'There is something wrong!',
-                                    text: res.message
+                                    text: resp.message
                                     })
                                 }else{
 
                                   Swal.fire({
                                   icon: 'success',
-                                  title: 'RRR ID. : ' + resp.responseJSON.transaction_id,
+                                  title: 'RRR ID. : ' + resp.transaction_id,
                                   text: 'Input Success! Please copy the reference number above for activity status tracking. Please be also reminded that confirmation of this activity will be sent to your Email Address. Thank you.',
                                   footer: '<h3><b><a href="index">Close</a></b></h3>',
                                   showConfirmButton:false
@@ -485,8 +485,7 @@ $('.btn_submitRequest').click(e =>{
                           // alert(res)
                         }
                     })
-                  } else {
-                  }
+                  } 
                 })
 
 
