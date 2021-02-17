@@ -31,9 +31,9 @@ try {
     $date_requested = date('m/d/y');
 
     $latest_fetch = $db->query("SELECT id, transaction_number FROM reservations ORDER BY id DESC LIMIT 1");
-    while($row = $latest_fetch->fetch_object()) {
-        $transaction = $row->transaction_number;
-    }
+    $row = $latest_fetch->fetch_object(); 
+    $transaction = $row->transaction_number;
+    
     $transaction_id = $transaction + 1; 
 
     if(empty($email) || empty($division) || empty($name) || empty($number) || empty($title) || empty($title) || empty($description)){
@@ -550,19 +550,30 @@ function track_rrr(){
                                 switch($status){
                                     case 'Approved':
                                         $statu = '<span class="badge badge-success">Approved</span>';
+                                        $button = '
+                                        <button class="btn btn-info btn-sm btn-resched">Reschedule <i class="fa fa-calendar"></i></button>
+                                        <button class="btn btn-danger btn-sm btn-cancel">Cancel <i class="fa fa-times"></i></button>';
                                     break;
                                     case 'Rescheduled':
-                                        $statu = '<span class="badge badge-warning">Rescheduled</span>';
+                                        $statu = '<span class="badge badge-warning">Pending</span>';
+                                        $button = '
+                                        <button class="btn btn-primary btn-sm btn-follow">Follow up <i class="fa fa-envelope"></i></button>
+                                        <button class="btn btn-danger btn-sm btn-cancel">Cancel <i class="fa fa-times"></i></button>
+                                        ';
                                     break;
                         
                         
                                     case 'Follow up':
                                         $statu = '<span class="badge badge-info">For Follow up</span>';
+                                        $button = '<button class="btn btn-danger btn-sm btn-cancel">Cancel <i class="fa fa-times"></i></button>';
                                     break;
                         
                                     default :
                                     $statu = '<span class="badge badge-warning">Pending</span>';
-                        
+                                    $button = '
+                                    <button class="btn btn-primary btn-sm btn-follow">Follow up <i class="fa fa-envelope"></i></button>
+                                    <button class="btn btn-info btn-sm btn-resched">Reschedule <i class="fa fa-calendar"></i></button>
+                                    <button class="btn btn-danger btn-sm btn-cancel">Cancel <i class="fa fa-times"></i></button>';
                                     break;
                                 }
 
@@ -594,7 +605,8 @@ function track_rrr(){
                     <td class=" ">'.$organizer_name.'</td>
                     <td class="">'.$statu.'</td>
                     <td class="a-right a-right ">'.$venue.'</td>
-                    <td class=" last"><a href="#" class="btn btn-primary btn-sm">Follow up <i class="fa fa-envelope"></i></a><a href="#" class="btn btn-info btn-sm">Reschedule <i class="fa fa-calendar"></i></a><a href="#" class="btn btn-danger btn-sm">Cancel <i class="fa fa-times"></i></a>
+                    <td class=" last">
+                    '.$button.'
                     </td>
                   </tr>
                   </tbody>
@@ -605,8 +617,233 @@ function track_rrr(){
             
             
 
-            echo '</table>';
+            echo '</table>';?>
+            <form id="rrr_date">
+                    <input type="hidden" name="transaction_id" value="<?php echo $transaction_id;?>">
+                    <input type="hidden" name="res_id" value="<?php echo $id;?>">
+                    <input type="hidden" name="startdate" value="<?php echo $startdate;?>">
+                    <input type="hidden" name="start_time" value="<?php echo $start_time;?>">
+                    <input type="hidden" name="venue" value="<?php echo $venue;?>">
+                    <input type="hidden" name="activity_title" value="<?php echo $activity_title;?>">
+                    <input type="hidden" name="organizer_name" value="<?php echo $organizer_name;?>">
+                    <input type="hidden" name="function" class="function" value="tracking_request">
+                </form>
+            
+            
+            
+            <?php
         }
+
+}
+
+
+function tracking_request(){
+
+    global $db;
+
+    include 'class/PHPMailerAutoload.php';
+
+    
+    try {
+
+    $transaction_id = $db->real_escape_string($_POST['transaction_id']);
+    $res_id = $db->real_escape_string($_POST['res_id']);
+    $startdate = $db->real_escape_string($_POST['startdate']);
+    $start_time = $db->real_escape_string($_POST['start_time']);
+    $venue = $db->real_escape_string($_POST['venue']);
+    $organizer_name = $db->real_escape_string($_POST['organizer_name']);
+    $reason = $db->real_escape_string($_POST['reason']);
+    $date_request = $db->real_escape_string($_POST['date_request']);
+    $title = $db->real_escape_string($_POST['activity_title']);
+    $func_val = $db->real_escape_string($_POST['func_val']);
+
+    switch($func_val){
+
+        case 'cancel_request' :
+
+            $status = 'Cancelled';
+            $subject = '[CANCELLED] RRR No:'.$transaction_id. ' | '.$title. ' | '.$startdate. ' | '.$start_time;
+            $body =   
+            "<html>
+            <head>
+            <title></title>
+            </head>
+            <body>                
+            <div style='width:800px;background:#fff;border-style:groove;'>
+            <div style='width:100%;text-align:center;background:#292828'><a href='your website url'> <img 
+            src=\"https://nmis.gov.ph/images/headers/header2020.png\" height=100 width=500;'></a></div>
+            <hr width='100%' size='2' color='#4274e0'>
+            <div style='width:50%;height:20px; text-align:right;margin-
+            top:-32px;padding-left:390px;'><a href='your url' style='color:#00BDD3;text-
+            decoration:none;'> 
+        
+            <h2 style='width:50%;height:40px; text-align:right;margin:0px;padding-
+            left:390px;color:#B24909;'>NRRT Reservation</h2>
+            <div style='width:50%;text-align:right;margin:0px;padding-
+            left:390px;color:#0A903B'><b> [CANCELLED] RRR No. : ". $transaction_id ."</b> </div>
+            <h4 style='color:#292828;margin-top:-20px;'> Hello RRR Team,
+            </h4>
+            <p>
+           <b> ".$organizer_name."</b> has <b style='color:#DC3544'>CANCELLED</b> their Activity : <b>".$title."</b> 
+           on <b>".date('F j, Y',strtotime($startdate))." ".date('g:i a',strtotime($start_time))."</b> 
+           <br>with the following reason/s: <b>".$reason."</b><br><br>
+        
+               Venue : <b>".$venue."</b><br><br>
+        
+             Click <a href='bit.ly/NMISRRT'>here</a> to view the calendar.<br><br>
+                Thank You!<br><br> -- <br><br>
+                <b>NMIS RRR Team</b><br>
+                    National Meat Inspection Service<br>
+                    4 Visayas Ave., Diliman, Quezon City <br>
+                    Tel. No. (02)8924-7980 local 207<br><br>
+               </p>
+            <hr/>
+                               
+                
+            </div>              
+            </body>
+            </html>";
+
+        break;
+
+        case 'reschedule_request':
+
+            $status = 'Rescheduled';
+            $subject = '[RESCHEDULE REQUEST] RRR No:'.$transaction_id. ' | '.$title. ' | '.$startdate. ' | '.$start_time;
+            $body =   
+            "<html>
+            <head>
+            <title></title>
+            </head>
+            <body>                
+            <div style='width:800px;background:#fff;border-style:groove;'>
+            <div style='width:100%;text-align:center;background:#292828'><a href='your website url'> <img 
+            src=\"https://nmis.gov.ph/images/headers/header2020.png\" height=100 width=500;'></a></div>
+            <hr width='100%' size='2' color='#4274e0'>
+            <div style='width:50%;height:20px; text-align:right;margin-
+            top:-32px;padding-left:390px;'><a href='your url' style='color:#00BDD3;text-
+            decoration:none;'> 
+        
+            <h2 style='width:50%;height:40px; text-align:right;margin:0px;padding-
+            left:390px;color:#B24909;'>NRRT Reservation</h2>
+            <div style='width:50%;text-align:right;margin:0px;padding-
+            left:390px;color:#0A903B'><b> [RESCHEDULE REQUEST] RRR No. : ". $transaction_id ."</b> </div>
+            <h4 style='color:#292828;margin-top:-20px;'> Hello RRR Team,
+            </h4>
+            <p>
+           <b> ".$organizer_name."</b> is requesting to <b style='color: #0a98af'>RESCHEDULE</b> their Activity : <b>".$title."</b> 
+           on <b>".$date_request."</b> 
+           <br><b>Kindly Please check request for Approval.</b><br><br>
+        
+        
+             Click <a href='bit.ly/NMISRRT'>here</a> to view the calendar.<br><br>
+                Thank You!<br><br> -- <br><br>
+                <b>NMIS RRR Team</b><br>
+                    National Meat Inspection Service<br>
+                    4 Visayas Ave., Diliman, Quezon City <br>
+                    Tel. No. (02)8924-7980 local 207<br><br>
+               </p>
+            <hr/>
+                               
+                
+            </div>              
+            </body>
+            </html>";
+
+        break;
+
+        default :
+
+        $status = 'Follow up';
+        $subject = '[FOLLOW UP REQUEST] RRR No:'.$transaction_id. ' | '.$title. ' | '.$startdate. ' | '.$start_time;
+        $body =   
+        "<html>
+        <head>
+        <title></title>
+        </head>
+        <body>                
+        <div style='width:800px;background:#fff;border-style:groove;'>
+        <div style='width:100%;text-align:center;background:#292828'><a href='your website url'> <img 
+        src=\"https://nmis.gov.ph/images/headers/header2020.png\" height=100 width=500;'></a></div>
+        <hr width='100%' size='2' color='#4274e0'>
+        <div style='width:50%;height:20px; text-align:right;margin-
+        top:-32px;padding-left:390px;'><a href='your url' style='color:#00BDD3;text-
+        decoration:none;'> 
+    
+        <h2 style='width:50%;height:40px; text-align:right;margin:0px;padding-
+        left:390px;color:#B24909;'>NRRT Reservation</h2>
+        <div style='width:50%;text-align:right;margin:0px;padding-
+        left:390px;color:#0A903B'><b> [FOLLOW UP REQUEST] RRR No. : ". $transaction_id ."</b> </div>
+        <h4 style='color:#292828;margin-top:-20px;'> Hello RRR Team,
+        </h4>
+        <p>
+       <b> ".$organizer_name."</b> is requesting for <b style='color: #0a98af'>FOLLOW UP</b> of their Activity : <b>".$title."</b> 
+       on <b>".date('F j, Y',strtotime($startdate))." ".date('g:i a',strtotime($start_time))."</b> 
+       <br><b>Kindly Please check request for Approval.</b><br><br>
+    
+    
+         Click <a href='bit.ly/NMISRRT'>here</a> to view the calendar.<br><br>
+            Thank You!<br><br> -- <br><br>
+            <b>NMIS RRR Team</b><br>
+                National Meat Inspection Service<br>
+                4 Visayas Ave., Diliman, Quezon City <br>
+                Tel. No. (02)8924-7980 local 207<br><br>
+           </p>
+        <hr/>
+                           
+            
+        </div>              
+        </body>
+        </html>";
+
+        break;
+
+    }
+
+    $mail = new PHPMailer();
+    $mail->isSMTP();  
+    $mail->SMTPOptions = array(
+        'ssl' => array(
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+            'allow_self_signed' => true
+        )
+    );                                          // Set mailer to use SMTP
+    $mail->Host       = 'smtp.gmail.com';  // Specify main and backup SMTP servers
+    $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
+    $mail->Username   = 'nmis.ictsd@gmail.com';                     // SMTP username
+    $mail->Password   = '';                               // SMTP password
+    $mail->SMTPSecure = 'tls';                                  // Enable TLS encryption, `ssl` also accepted
+    $mail->Port       = 587;  
+    $mail->isHTML(true);
+    $mail->From = 'admin@noreply.com';  // This HAVE TO be your gmail adress
+
+    $mail->FromName = 'NMIS RRT'; // This is the from name in the email, you can put anything you like here
+    $mail->AddAddress('nmis.systems@gmail.com');
+
+    $mail->Subject = $subject;
+    $mail->Body = $body;
+
+
+
+    if(!$mail->send()) {
+        // echo 'Mailer Error: ' . $mail->ErrorInfo;
+        die(json_encode(array('error'=> 1,'message' => $mail->ErrorInfo)));
+
+        } else {	
+
+            $query = $db->query("UPDATE reservations SET activity_status = '$status' WHERE id = '$res_id'");
+
+                            echo json_encode(array('message' => 'Update Success'));
+        }
+        
+
+    } catch (Exception $e) {
+        echo 'Caught exception: ',  $e->getMessage(), "\n";
+    }
+
+
+
 
 }
 

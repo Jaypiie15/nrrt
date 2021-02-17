@@ -37,6 +37,11 @@ switch($function) {
         track_rrr();
     break;
 
+    case 'tracking_request' :
+        tracking_request();
+    break;
+
+
     default :
     die(json_encode(array('message' => 'Function not existing')));
     break;

@@ -112,6 +112,13 @@ $(function(){
   $('#track_search').click( e => {
         var form = $('#rrr_form').serialize();
         e.preventDefault();
+        if($('#rrr').val() == ''){
+          Swal.fire({
+                icon: 'error',
+                title: 'Input Missing!',
+                text: 'Please enter RRR No.'
+              })
+        }else{
 
         $.ajax({
             type : 'POST',
@@ -125,9 +132,177 @@ $(function(){
               $("#loader").hide();
                 $('#track_table').html(res);
 
+
+
+                $('.btn-follow').click( e => {
+
+                  Swal.fire({
+                    title: 'Are you sure you want to Follow up request?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Submit',
+                    cancelButtonText: 'Close'
+                  }).then((result) => {
+
+                    if (result.isConfirmed) {
+                      
+                      var form = $('#rrr_date').serialize() + '&func_val=followup_request';
+
+                        $.ajax({
+                            type : 'POST',
+                            url : 'redirect',
+                            data : form,
+                            beforeSend : function(){
+                              $("#loader").show();
+                            },
+                            success : function(res){
+                               $("#loader").hide();
+
+                                  if(res.error == 1){
+                                    Swal.fire({
+                                    icon: 'error',
+                                    title: 'There is something wrong!',
+                                    text: res.message
+                                    })
+                                  }
+                                  else {
+
+                                    Swal.fire({
+                                      icon: 'success',
+                                      title: 'Successfully Followed up!',
+                                      text: 'Your request is notified to RRR Team. Confirmation of your meeting will be sent to your email.',
+                                      footer: '<h3><b><a href="tracking">Close</a></b></h3>',
+                                      showConfirmButton:false
+                                    })
+
+                                  }
+                            }
+                        })
+
+                    }
+                  })
+
+                })
+
+
+                $('.btn-resched').click( e=> {
+
+                  Swal.fire({
+                    title: 'Are you sure you want to Reschedule?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    html : 'You wont be able to revert this!<br><br>Please input Preferred Date and Time : <input type="text" class="form-control date_request" name="date_request">',
+                    confirmButtonText: 'Submit',
+                    cancelButtonText: 'Close'
+                  }).then((result) => {
+
+                    if (result.isConfirmed) {
+                      
+                      var date_request = $('.date_request').val();
+                      var form = $('#rrr_date').serialize() + '&date_request=' + date_request + '&func_val=reschedule_request';
+
+                        $.ajax({
+                            type : 'POST',
+                            url : 'redirect',
+                            data : form,
+                            beforeSend : function(){
+                              $("#loader").show();
+                            },
+                            success : function(res){
+                               $("#loader").hide();
+
+                                  if(res.error == 1){
+                                    Swal.fire({
+                                    icon: 'error',
+                                    title: 'There is something wrong!',
+                                    text: res.message
+                                    })
+                                  }
+                                  else {
+
+                                    Swal.fire({
+                                      icon: 'success',
+                                      title: 'Successfully Rescheduled!',
+                                      text: 'Your request is notified to RRR Team. Confirmation of your meeting will be sent to your email.',
+                                      footer: '<h3><b><a href="tracking">Close</a></b></h3>',
+                                      showConfirmButton:false
+                                    })
+
+                                  }
+                            }
+                        })
+
+                    }
+                  })
+
+
+                  })
+
+
+
+                  $('.btn-cancel').click( e=> {
+
+                    Swal.fire({
+                    title: 'Are you sure you want to cancel?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    html : 'You wont be able to revert this!<br><br> Input Reason : <input type="text" class="form-control reason" name="reason">',
+                    confirmButtonText: 'Submit',
+                    cancelButtonText: 'Close'
+                  }).then((result) => {
+
+                    if (result.isConfirmed) {
+                      
+                      var reason = $('.reason').val();
+                      var form = $('#rrr_date').serialize() + '&reason=' + reason + '&func_val=cancel_request';
+
+                        $.ajax({
+                            type : 'POST',
+                            url : 'redirect',
+                            data : form,
+                            beforeSend : function(){
+                              $("#loader").show();
+                            },
+                            success : function(res){
+                               $("#loader").hide();
+
+                                  if(res.error == 1){
+                                    Swal.fire({
+                                    icon: 'error',
+                                    title: 'There is something wrong!',
+                                    text: res.message
+                                    })
+                                  }
+                                  else {
+
+                                    Swal.fire({
+                                      icon: 'success',
+                                      title: 'Successfully Cancelled!',
+                                      text: 'Your request is notified to RRR Team.',
+                                      footer: '<h3><b><a href="tracking">Close</a></b></h3>',
+                                      showConfirmButton:false
+                                    })
+
+                                  }
+                            }
+                        })
+
+                    }
+                  })
+                })
+
+
+
             }
 
         })
+      }
 
   })
 })
