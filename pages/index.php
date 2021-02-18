@@ -394,50 +394,52 @@ $('.btn_submitRequest').click(e =>{
             
             Swal.fire({
                 icon: 'error',
-                title: 'Input Missing!',
+                title: 'Email Missing!',
                 text: 'Input not complete.'
               })
           }
-          if($('#division').val() === ''){
+          else if($('#division').val() === ''){
             
             Swal.fire({
                 icon: 'error',
-                title: 'Input Missing!',
+                title: 'Division Missing!',
                 text: 'Input not complete.'
               })
           }
-          if($('#name').val() === ''){
+         else if($('#name').val() === ''){
             
             Swal.fire({
                 icon: 'error',
-                title: 'Input Missing!',
+                title: 'Name Missing!',
                 text: 'Input not complete.'
               })
           }
-          if($('#number').val() === ''){
+          else if($('#number').val() === ''){
             
             Swal.fire({
                 icon: 'error',
-                title: 'Input Missing!',
+                title: 'Telephone Number Missing!',
                 text: 'Input not complete.'
               })
           }
-          if($('#title').val() === ''){
+          else if($('#title').val() === ''){
             
             Swal.fire({
                 icon: 'error',
-                title: 'Input Missing!',
+                title: 'Activity Title Missing!',
                 text: 'Input not complete.'
               })
           }
-          if($('#description').val() === ''){
+         else if($('#description').val() === ''){
             
             Swal.fire({
                 icon: 'error',
-                title: 'Input Missing!',
+                title: 'Activity Description Missing!',
                 text: 'Input not complete.'
               })
           }
+
+
 
             else{
 

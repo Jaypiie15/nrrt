@@ -61,6 +61,7 @@
                                             <label class="col-form-label col-md-3 col-sm-3  label-align"> Venue<span class="required">*</span></label>
                                             <div class="col-md-6 col-sm-6">
                                             <select class="form-control" name="event_venue" required="required" >
+                                            <option name="" value="">-- SELECT ONE --</option>
                                             <option name="mib" value="MIB Room">MIB Room</option>
                                             <option name="tra" value="Training Room A">Training Room A</option>
                                             <option name="trb" value="Training Room B">Training Room B</option>
