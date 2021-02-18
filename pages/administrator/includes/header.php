@@ -9,7 +9,11 @@
 	<link rel="icon" href="images/favicon.ico" type="image/ico" />
 
     <title>NMIS | RRT </title>
-
+    <?php
+    	if (empty($_COOKIE['user_id'])){
+        header('location:administrator');
+        }
+        ?>
     <!-- Bootstrap -->
     <link href="vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->

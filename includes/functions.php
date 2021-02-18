@@ -985,5 +985,35 @@ function update_user(){
 
 }
 
+function user_login(){
+
+    global $db;
+
+    $username = $db->real_escape_string($_POST['username']);
+    $password = $db->real_escape_string($_POST['password']);
+
+    $query = $db->query("SELECT * FROM user_tbl WHERE email = '$username' AND account_status = 'Activated'");
+    $check = $query->num_rows;
+
+    if($check < 1){
+        die(json_encode(array('error' => 1, 'message' => 'Account does not exist!')));
+    }
+
+    $row = $query->fetch_object();
+    $rrr_id = $row->id;
+    $pass = $row->account_password;
+
+    if(password_verify($password,$pass)){
+        setcookie('user_id', $rrr_id,time()+3600);
+        die(json_encode(array('message' => 'Login Success!')));
+
+    }
+    else{
+        die(json_encode(array('error' => 1, 'message' => 'Incorrect Email or Password!')));
+    }
+
+
+}
+
 
 ?>

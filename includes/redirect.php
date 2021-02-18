@@ -57,6 +57,10 @@ switch($function) {
         update_user();
     break;
 
+    case 'user_login' :
+        user_login();
+    break;
+
 
     default :
     die(json_encode(array('message' => 'Function not existing')));
