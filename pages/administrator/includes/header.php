@@ -10,7 +10,7 @@
 
     <title>NMIS | RRT </title>
     <?php
-    	if (empty($_COOKIE['user_id'])){
+    	if (empty($_COOKIE['log_id'])){
         header('location:administrator');
         }
         ?>

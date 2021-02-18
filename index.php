@@ -48,6 +48,10 @@ switch ($page) {
   require 'pages/administrator/edit-user.php';
   break;
 
+  case 'logout':
+    require 'pages/administrator/logout.php';
+  break;
+
   default:
     require 'pages/404.php';
     break;

@@ -11,7 +11,7 @@
 
     <title>NMIS | RRT </title>
     <?php
-    	if (isset($_COOKIE['user_id'])!=""){
+    	if (isset($_COOKIE['log_id'])!=""){
         header('location:dashboard');
         }
         ?>

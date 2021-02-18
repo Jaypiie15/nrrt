@@ -1004,7 +1004,7 @@ function user_login(){
     $pass = $row->account_password;
 
     if(password_verify($password,$pass)){
-        setcookie('user_id', $rrr_id,time()+3600);
+        setcookie('log_id', $rrr_id,time()+3600);
         die(json_encode(array('message' => 'Login Success!')));
 
     }
