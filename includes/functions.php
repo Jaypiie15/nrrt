@@ -252,7 +252,7 @@ function edit_event(){
                         transaction_number,resources FROM reservations WHERE id = ".$_COOKIE['res_id']);
 
                         $rows = array();
-                        while($r = $query->fetch_object()){
+                        $r = $query->fetch_object();
                             $rows[] = array(
                                             'id' => $r->id,
                                             'email' => $r->email,
@@ -271,7 +271,7 @@ function edit_event(){
                                             'meeting_link' => $r->meeting_link,
                                             'admin_remarks' => $r->admin_remarks
                             );
-                        }
+                        
                         print json_encode($rows);
 
                 
@@ -843,6 +843,144 @@ function tracking_request(){
     }
 
 
+
+
+}
+
+function add_user(){
+
+    global $db;
+
+    $lastname = $db->real_escape_string($_POST['lastname']);
+    $firstname = $db->real_escape_string($_POST['firstname']);
+    $email = $db->real_escape_string($_POST['email']);
+    $password = $db->real_escape_string($_POST['password']);
+    $division = $db->real_escape_string($_POST['division']);
+    $hash = password_hash($password,PASSWORD_DEFAULT);
+    $status = 'Activated';
+    $date_created = date('m/d/Y');
+    
+    $fetch = $db->query("SELECT email FROM user_tbl WHERE email = '$email'");
+    $check = $fetch->num_rows;
+
+    if($check > 0){
+        die(json_encode(array('error' => 1, 'message' => 'Email already exist!')));
+    }
+
+
+    $query = $db->query("INSERT INTO user_tbl (lastname,firstname,email,account_password,division,account_status,date_created)
+                        VALUES ('$lastname','$firstname','$email','$hash','$division','$status','$date_created')
+                        ");
+                            echo json_encode(array('message' => 'Add User Success!'));
+
+
+}
+
+function user_table(){
+
+    global $db;?>
+
+    <table class="table table-striped jambo_table bulk_action">
+        <thead>
+          <tr class="headings">
+    
+            <th class="column-title">Name </th>
+            <th class="column-title">Email </th>
+            <th class="column-title">Division </th>
+            <th class="column-title">Status </th>
+            <th class="column-title no-link last"><span class="nobr">Action</span>
+            </th>
+            <th class="bulk-actions" colspan="7">
+              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr class="even pointer">
+          <?php
+
+    $query = $db->query("SELECT * FROM user_tbl");
+
+    while($row = $query->fetch_object()){
+
+        if($row->account_status == 'Activated'){
+            $statu = '<span class="badge badge-success">Active</span>';
+        }
+        else{
+            $statu = '<span class="badge badge-danger">Deactivated</span>';
+        }
+        echo'
+
+            <td class=" ">'.$row->firstname. ' '.$row->lastname.' </td>
+            <td class=" ">'.$row->email.' </td>
+            <td class=" ">'.$row->division.'</td>
+            <td class=" ">'.$statu.'</td>
+            <td class=" last">
+           <button class="btn btn-info btn-sm btn-view" value='.$row->id.'>View <i class="fa fa-eye"></i></button>
+
+            </td>
+          </tr>
+          </tbody>';
+
+    }
+
+    echo '</table>';
+
+
+}
+
+function edit_user(){
+
+    global $db;
+
+    $query = $db->query("SELECT * FROM user_tbl WHERE id = ".$_COOKIE['user_id']);
+
+    $rows = array();
+    $r = $query->fetch_object();
+        $rows[] = array(
+                        'id' => $r->id,
+                        'lastname' => $r->lastname,
+                        'firstname' => $r->firstname,
+                        'email' => $r->email,
+                        'password' => $r->account_password,
+                        'division' => $r->division,
+                        'status' => $r->account_status
+        );
+    
+    print json_encode($rows);
+}
+
+function update_user(){
+
+    global $db;
+
+    $user_id = $db->real_escape_string($_POST['user_id']);
+    $lastname = $db->real_escape_string($_POST['lastname']);
+    $firstname = $db->real_escape_string($_POST['firstname']);
+    $email = $db->real_escape_string($_POST['email']);
+    $password = $db->real_escape_string($_POST['password']);
+    $division = $db->real_escape_string($_POST['division']);
+    $status = $db->real_escape_string($_POST['status']);
+
+    $fetch = $db->query("SELECT email,account_password FROM user_tbl WHERE email= '$email'");
+    $row = $fetch->fetch_object();
+    $dbpass = $row->account_password;
+
+    if($dbpass != $password){
+        $pass = password_hash($password,PASSWORD_DEFAULT);
+    }
+    else{
+        $pass = $password;
+    }
+
+
+
+    $query = $db->query("UPDATE user_tbl SET lastname = '$lastname', firstname = '$firstname', email = '$email',
+                        account_password = '$pass', division = '$division', account_status = '$status'
+                        WHERE id = '$user_id'");
+
+                        echo json_encode(array('message' => 'Update Success'));
 
 
 }

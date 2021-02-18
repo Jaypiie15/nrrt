@@ -11,9 +11,9 @@
                             <img src='build/images/loading.gif' width='300px' height='300px'>
                             </div>
                                 <div class="x_content">
-                                    <form class="" id="form_adduser" action="" method="post">
+                                    <form class="" id="form_updateuser" action="" method="post">
                                       
-                                        <span class="section">Add User <i class="fa fa-user-plus"></i></span>
+                                        <span class="section">Edit User <i class="fa fa-pencil"></i></span>
                                         <div class="field item form-group">
                                             <label class="col-form-label col-md-3 col-sm-3  label-align">Last Name<span class="required">*</span></label>
                                             <div class="col-md-6 col-sm-6">
@@ -51,20 +51,30 @@
                                                 <input class="form-control"  name="division" id="division" required="required" />
                                             </div>
                                         </div>
-                                        <input type="hidden" name="function" value="add_user">
+                                        <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align"> Status<span class="required">*</span></label>
+                                            <div class="col-md-6 col-sm-6">
+                                            <select class="form-control" name="status" required="required" >
+                                            <option name="" value="">-- SELECT ONE --</option>
+                                            <option name="activate" value="Activated">Activate</option>
+                                            <option name="deactivate" value="Deactivated">Deactivate</option>
+
+
+                                            </select>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="user_id" id="user_id" value="">
+                                        <input type="hidden" name="function" value="update_user">
                                         <div class="ln_solid">
                                             <div class="form-group">
                                                 <div class="col-md-6 offset-md-3">
-                                                    <button type='submit' class="btn btn-primary btn-add">Submit</button>
+                                                    <button type='submit' class="btn btn-primary btn-update">Submit</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </form>
 
-                                    <div class="table-responsive ">
-                                    <div id="user_table"></div>
 
-                                </div>
                                 </div>
                             </div>
                         </div>
@@ -72,87 +82,37 @@
                 </div>
             </div>
 
-<?php include 'pages/administrator/includes/footer.php';?>
+            <?php include 'pages/administrator/includes/footer.php';?>
 <script>
 $(function(){
 
     $.ajax({
-        type: 'POST',
-        url : 'redirect',
-        data : { function : 'user_table'},
-        success : function(res){
-            $('#user_table').html(res);
-
-            $('.btn-view').on('click',function() {
-
-            document.cookie = "user_id="+$(this).val();"path=/";
-            window.location = "edit-user";
-            })
-        }
-
+      type : 'POST',
+      url : 'redirect',
+      dataType : 'json',
+      data : {function : 'edit_user'},
+      success : function(res){
+          $('#lastname').val(res[0].lastname)
+          $('#firstname').val(res[0].firstname)
+          $('#email').val(res[0].email)
+          $('#password1').val(res[0].password)
+          $('#password2').val(res[0].password)
+          $('#division').val(res[0].division)
+          $('#user_id').val(res[0].id)
+      }
     })
 
+    $('.btn-update').click( e => {
+      e.preventDefault();
 
-    $('.btn-add').click( e=> {
+      Swal.fire({
+            title: 'Are you sure you want to Update this user?',
+            showCancelButton: true,
+            confirmButtonText: `Save`,
+            }).then((result) => {
 
-            e.preventDefault();
-
-
-            if($('#lastname').val() == ''){
-                Swal.fire({
-                icon: 'error',
-                title: 'Lastname Missing!',
-                text: 'Input not complete.'
-              })
-            }
-            else if($('#firstname').val() == ''){
-                Swal.fire({
-                icon: 'error',
-                title: 'Firstname Missing!',
-                text: 'Input not complete.'
-              })
-            }
-           else if($('#password').val() == ''){
-                Swal.fire({
-                icon: 'error',
-                title: 'Password Missing!',
-                text: 'Input not complete.'
-              })
-            }
-            else if($('#password2').val() == ''){
-                Swal.fire({
-                icon: 'error',
-                title: 'Repeat Password Missing!',
-                text: 'Input not complete.'
-              })
-            }
-            else if($('#email').val() == ''){
-                Swal.fire({
-                icon: 'error',
-                title: 'Email Missing!',
-                text: 'Input not complete.'
-              })
-            }
-           else if($('#division').val() == ''){
-                Swal.fire({
-                icon: 'error',
-                title: 'Division Missing!',
-                text: 'Input not complete.'
-              })
-            }
-
-            else {
-
-
-            var form = $('#form_adduser').serialize();
-
-            Swal.fire({
-                  title: 'Are you sure you want to Add as an Administrator?',
-                  showCancelButton: true,
-                  confirmButtonText: `Yes`,
-                }).then((result) => {
-                  /* Read more about isConfirmed, isDenied below */
-                  if (result.isConfirmed) {
+            if (result.isConfirmed) {
+                var form = $('#form_updateuser').serialize();
 
                         $.ajax({
                             type : 'POST',
@@ -161,36 +121,47 @@ $(function(){
                             data : form,
                             beforeSend : function(){
                                 $("#loader").show();
+
                             },
                             success : function(res){
-                                  $("#loader").hide();
-                                    if(res.error == 1){
-                                        Swal.fire({
-                                            icon: 'error',
-                                            title: 'There is something wrong!',
-                                            text: res.message
-                                            })
-                                    }
-                                    else {
-                                        Swal.fire({
-                                                icon: 'success',
-                                                title: 'Add Administrator Success!',
-                                                footer: '<h3><b><a href="add-users">Close</a></b></h3>',
-                                                showConfirmButton:false
-                                                })
-                                    }
+                            $("#loader").hide();
+
+                            if(res.error == 1){
+
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'There is something wrong!',
+                                    text: res.message
+                                    })
+                            }else{
+
+                            Swal.fire({
+                                    icon: 'success',
+                                    title: 'User Updated!',
+                                    text: 'Account Successfully Updated!',
+                                    footer: '<h3><b><a href="add-users">Close</a></b></h3>',
+                                    showConfirmButton:false
+                                    })
+
+                                }
                             }
 
-            })
+                        })
+            } else {
+
             }
-        })
-
-        }
-
-    })
+            })
 
 
 
 
+
+
+
+
+
+
+
+  })
 })
 </script>

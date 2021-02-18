@@ -44,6 +44,10 @@ switch ($page) {
   require 'pages/administrator/reports.php';
   break;
 
+  case 'edit-user' :
+  require 'pages/administrator/edit-user.php';
+  break;
+
   default:
     require 'pages/404.php';
     break;

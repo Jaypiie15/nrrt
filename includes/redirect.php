@@ -41,6 +41,22 @@ switch($function) {
         tracking_request();
     break;
 
+    case 'add_user':
+        add_user();
+    break;
+
+    case 'user_table':
+        user_table();
+    break;
+
+    case 'edit_user':
+        edit_user();
+    break;
+
+    case 'update_user':
+        update_user();
+    break;
+
 
     default :
     die(json_encode(array('message' => 'Function not existing')));
