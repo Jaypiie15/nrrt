@@ -26,9 +26,11 @@ try {
     $endtime = $db->real_escape_string($_POST['endtime']); 
     $message = $db->real_escape_string($_POST['message']);
     $resources = implode(',', $_POST['devices']);
+    $meeting_link = $db->real_escape_string($_POST['meeting_link']);
 
     $activity_status = 'Pending';
     $date_requested = date('m/d/y');
+
 
     $latest_fetch = $db->query("SELECT id, transaction_number FROM reservations ORDER BY id DESC LIMIT 1");
     $row = $latest_fetch->fetch_object(); 
@@ -124,10 +126,10 @@ try {
 
                 $query = $db->query("INSERT INTO reservations
                 (email,division,organizer_name,contact_number,activity_title,activity_desc,activity_mode,activity_id,startdate,end_date,
-                 start_time,end_time,resources,remarks,activity_status,transaction_number,date_requested) 
+                 start_time,end_time,resources,remarks,activity_status,transaction_number,date_requested,meeting_link) 
 
                  VALUES('$email','$division','$name','$number','$title','$description','$mode','$meetingId','$startdate','$enddate','$starttime',
-                        '$endtime','$resources','$message','$activity_status','$transaction_id','$date_requested')");
+                        '$endtime','$resources','$message','$activity_status','$transaction_id','$date_requested','$meeting_link')");
 
                             echo json_encode(array('message' => 'Input Success','transaction_id' => $transaction_id));
             }
@@ -249,7 +251,7 @@ function edit_event(){
 
     $query = $db->query("SELECT id,email,activity_title,activity_desc,organizer_name,startdate,start_time,end_date,
                         end_time,venue,meeting_link,admin_remarks,activity_status,
-                        transaction_number,resources FROM reservations WHERE id = ".$_COOKIE['res_id']);
+                        transaction_number,resources,activity_mode,activity_id FROM reservations WHERE id = ".$_COOKIE['res_id']);
 
                         $rows = array();
                         $r = $query->fetch_object();
@@ -269,7 +271,9 @@ function edit_event(){
                                             'desc' => $r->activity_desc,
                                             'resources' => $r->resources,
                                             'meeting_link' => $r->meeting_link,
-                                            'admin_remarks' => $r->admin_remarks
+                                            'admin_remarks' => $r->admin_remarks,
+                                            'activity_mode' => $r->activity_mode,
+                                            'activity_id' => $r->activity_id
                             );
                         
                         print json_encode($rows);

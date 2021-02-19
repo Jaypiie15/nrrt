@@ -28,6 +28,12 @@
                                             </div>
                                         </div>
                                         <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">  Activity Mode<span class="required">*</span></label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" name="activity_mode" id="activity_mode" disabled />
+                                            </div>
+                                        </div>
+                                        <div class="field item form-group">
                                             <label class="col-form-label col-md-3 col-sm-3  label-align"> Organizer Name<span class="required">*</span></label>
                                             <div class="col-md-6 col-sm-6">
                                                 <input class="form-control" name="organizer_name" id="organizer_name" disabled />
@@ -186,6 +192,30 @@ $('.starttime').daterangepicker({
                 $('.btn-update').hide();
             }
 
+            if(res[0].activity_mode == 'Virtual' && res[0].activity_id == 'Yes'){
+                var mode = 'Virtual Host';
+                $('#activity_mode').val(mode)
+                $('#meeting_link').val(res[0].meeting_link)
+
+            }
+            else if(res[0].activity_mode == 'Virtual' && res[0].activity_id == 'No'){
+                var mode = 'Virtual Joiner';
+                $('#activity_mode').val(mode)
+                $('#meeting_link').val(res[0].meeting_link)
+
+            }
+            else if(res[0].activity_mode == 'Face to Face'){
+                var mode = 'Face to Face Meeting';
+                var link = 'N/A';
+                $('#meeting_link').val(link)
+                $('#activity_mode').val(mode)
+
+            }
+            else {
+                $('#activity_mode').val(mode)
+                $('#meeting_link').val(res[0].meeting_link)
+
+            }
             $('#event_name').val(res[0].activity_title)
             $('#event_description').val(res[0].activity_desc)
             $('#organizer_name').val(res[0].organizer_name)
@@ -206,7 +236,6 @@ $('.starttime').daterangepicker({
             // $('#event_date').val(res[0].startdate)
             // $('#event_time').val(res[0].start_time)
             $('#resources').val(res[0].resources)
-            $('#meeting_link').val(res[0].meeting_link)
             $('#admin_remarks').val(res[0].admin_remarks)
   }
 

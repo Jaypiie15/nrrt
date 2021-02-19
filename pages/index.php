@@ -83,23 +83,26 @@
                                             <div class="col-md-6 col-sm-6">
                                             <div id="mode" class="btn-group" data-toggle="buttons">
                                               <label class="btn btn-secondary btn-sm" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                                                <input type="radio" name="mode" value="Face to Face" class="join-btn"> &nbsp; Face to Face &nbsp;
+                                                <input type="radio" name="mode" value="Face to Face" id="mode" class="join-btn" > &nbsp; Face to Face &nbsp;
                                               </label>
                                               <label class="btn btn-primary btn-sm" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                                                <input type="radio" name="mode" value="Virtual" class="join-btn"> Virtual
+                                                <input type="radio" name="mode" value="Virtual" id="mode" class="join-btn"> Virtual
                                               </label>
                                             </div>
                                             </div>
                                         </div>
-                                        <div class="field item form-group">
-                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Do you need a Meeting ID?<span class="required">*</span></label>
+                                        <div class="field item form-group provider">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Are you the host of Meeting?<span class="required">*</span></label>
                                             <div class="col-md-6 col-sm-6">
                                             <p>
                                                 Yes:
-                                                <input type="radio" class="flat" name="meetingid" id="meetingidY" value="Yes" checked="" required /> 
+                                                <input type="radio" class="flat meetingid" name="meetingid" id="meetingidY" value="Yes" /> 
                                                 No:
-                                                <input type="radio" class="flat" name="meetingid" id="meetingidN" value="No" />
+                                                <input type="radio" class="flat meetingid" name="meetingid" id="meetingidN" value="No" />
+                                            <br><br> <label style="color:red"> If you will not host the meeting please input the link or ID and Password of meeting you will join : </label>
+
                                               </p>
+                                                <input class="form-control"  name="meeting_link" id="meeting_link"  />
                                             </div>
                                         </div>
                                         <div class="field item form-group">
@@ -267,6 +270,46 @@
 <script>
     $(function() {
 
+      $('.provider').hide();
+
+
+      $('#meetingidY').attr('checked',true)
+
+      $("input[name$='mode']").change(function() {
+        var mode = $(this).val();
+
+
+        if(mode == 'Virtual'){
+          $('.provider').show();
+          $('#meetingidY').prop('checked',true)
+          $('#meetingidN').prop('checked',false)
+
+
+
+        } else {
+
+        
+          $('.provider').hide();
+          $('#meetingidN').prop('checked',true)
+          $('#meetingidY').prop('checked',false)
+
+        }
+
+        
+
+
+
+    });
+
+ 
+    
+ 
+  
+
+
+ 
+
+
       var date = new Date(),
         d = date.getDate(),
         m = date.getMonth(),
@@ -390,6 +433,8 @@ $('.starttime').daterangepicker({
 $('.btn_submitRequest').click(e =>{
   e.preventDefault();
         var form = $('#reservation_form').serialize();
+
+                  
           if($('#email').val() === ''){
             
             Swal.fire({
@@ -443,6 +488,7 @@ $('.btn_submitRequest').click(e =>{
 
             else{
 
+            
 
               Swal.fire({
                   title: 'Are you sure you want to submit?',
