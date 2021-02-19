@@ -145,7 +145,7 @@ function fetch_events(){
     global $db;
 
     $fetch = $db->query("SELECT id,division,activity_title,activity_desc,organizer_name,
-                         start_time,end_time,resources,venue,startdate,end_date 
+                         start_time,end_time,resources,venue,startdate,end_date,activity_mode 
                          FROM reservations WHERE activity_status = 'Approved'");
     $rows = array();
     while($r = $fetch->fetch_object()){
@@ -160,7 +160,8 @@ function fetch_events(){
                                 'startTime' => $r->start_time,
                                 'endTime' => $r->end_time,
                                 'venue' => $r->venue,
-                                'resources' => $r->resources
+                                'resources' => $r->resources,
+                                'mode' => $r->activity_mode
         );
     }
     print json_encode($rows);

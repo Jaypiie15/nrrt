@@ -116,6 +116,12 @@
                   </div>
                 </div>
                 <div class="form-group">
+                  <label class="col-sm-3 control-label">Event Mode</label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control event_mode" id="event_mode" name="event_mode" disabled>
+                  </div>
+                </div>
+                <div class="form-group">
                   <label class="col-sm-3 control-label">Organizer</label>
                   <div class="col-sm-9">
                     <input type="text" class="form-control event_organizer" id="event_organizer" name="event_organizer" disabled>
@@ -204,7 +210,7 @@
 
             // console.log(calEvent)
             // $('#fc_edit').click();
-             $('.CalenderModalEdit').addClass('modal-edit-'+calEvent.id)
+            $('.CalenderModalEdit').addClass('modal-edit-'+calEvent.id)
              $('.event_title').addClass('event-title-'+calEvent.id);
              $('.event_desc').addClass('event-desc-'+calEvent.id);
              $('.event_organizer').addClass('event-organizer-'+calEvent.id);
@@ -213,6 +219,7 @@
              $('.event_venue').addClass('event-venue-'+calEvent.id);
              $('.event_resources').addClass('event-resources-'+calEvent.id);
              $('.event_division').addClass('event-division-'+calEvent.id);
+             $('.event_mode').addClass('event-mode-'+calEvent.id);
 
              $('.modal-edit-'+calEvent.id).modal('show')
 
@@ -226,6 +233,7 @@
               $('.event-venue-'+v.id).val(v.venue);
               $('.event-resources-'+v.id).val(v.resources);
               $('.event-division-'+v.id).val(v.division);
+              $('.event-mode-'+v.id).val(v.mode);
 
               $('.antoclose2').click(function(){
                 $('.CalenderModalEdit').removeClass('modal-edit-'+calEvent.id)
@@ -237,6 +245,7 @@
                 $('.event_venue').removeClass('event-venue-'+calEvent.id);
                 $('.event_resources').removeClass('event-resources-'+calEvent.id);
                 $('.event_division').removeClass('event-division-'+calEvent.id);
+                $('.event_mode').removeClass('event-mode-'+calEvent.id);
               })
 
 
