@@ -79,6 +79,14 @@
                                             </div>
                                         </div>
                                         <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align">Expected number of Participants<span class="required">*</span></label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control"  name="number_participants" id="number_participants" required="required" />
+                                            <label style="color:red"><span class="required"></span> *Please include the number of Particpants including those who will join Virtually (if any).</label><br>
+                                            <label style="color:red"><span class="required"></span> * e.g (20 Face to Face 5 Virtual)</label>
+                                            </div>
+                                        </div>
+                                        <div class="field item form-group">
                                             <label class="col-form-label col-md-3 col-sm-3  label-align">Mode of Activity<span class="required">*</span></label>
                                             <div class="col-md-6 col-sm-6">
                                             <div id="mode" class="btn-group" data-toggle="buttons">
@@ -489,6 +497,14 @@ $('.btn_submitRequest').click(e =>{
             Swal.fire({
                 icon: 'error',
                 title: 'Activity Description Missing!',
+                text: 'Input not complete.'
+              })
+          }
+          else if($('#number_participants').val() === ''){
+            
+            Swal.fire({
+                icon: 'error',
+                title: 'Number of Participants Missing!',
                 text: 'Input not complete.'
               })
           }

@@ -34,6 +34,12 @@
                                             </div>
                                         </div>
                                         <div class="field item form-group">
+                                            <label class="col-form-label col-md-3 col-sm-3  label-align"> Expected number of Participants<span class="required">*</span></label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" name="number_participants" id="number_participants" disabled />
+                                            </div>
+                                        </div>
+                                        <div class="field item form-group">
                                             <label class="col-form-label col-md-3 col-sm-3  label-align"> Organizer Name<span class="required">*</span></label>
                                             <div class="col-md-6 col-sm-6">
                                                 <input class="form-control" name="organizer_name" id="organizer_name" disabled />
@@ -218,6 +224,7 @@ $('.starttime').daterangepicker({
             }
             $('#event_name').val(res[0].activity_title)
             $('#event_description').val(res[0].activity_desc)
+            $('#number_participants').val(res[0].number_participants)
             $('#organizer_name').val(res[0].organizer_name)
             $('#start_date').val(res[0].startdate)
             $('#end_date').val(res[0].enddate)

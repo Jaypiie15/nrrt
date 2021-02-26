@@ -18,6 +18,7 @@ try {
     $number = $db->real_escape_string($_POST['number']);
     $title = $db->real_escape_string($_POST['title']);
     $description = $db->real_escape_string($_POST['description']);
+    $number_participants = $db->real_escape_string($_POST['number_participants']);
     $mode = $db->real_escape_string($_POST['mode']);
     $meetingId = $db->real_escape_string($_POST['meetingid']);
     $startdate = $db->real_escape_string($_POST['startdate']);
@@ -125,10 +126,10 @@ try {
             } else {	
 
                 $query = $db->query("INSERT INTO reservations
-                (email,division,organizer_name,contact_number,activity_title,activity_desc,activity_mode,activity_id,startdate,end_date,
+                (email,division,organizer_name,contact_number,activity_title,activity_desc,activity_mode,number_participants,activity_id,startdate,end_date,
                  start_time,end_time,resources,remarks,activity_status,transaction_number,date_requested,meeting_link) 
 
-                 VALUES('$email','$division','$name','$number','$title','$description','$mode','$meetingId','$startdate','$enddate','$starttime',
+                 VALUES('$email','$division','$name','$number','$title','$description','$mode','$number_participants','$meetingId','$startdate','$enddate','$starttime',
                         '$endtime','$resources','$message','$activity_status','$transaction_id','$date_requested','$meeting_link')");
 
                             echo json_encode(array('message' => 'Input Success','transaction_id' => $transaction_id));
@@ -250,7 +251,7 @@ function edit_event(){
 
     global $db;
 
-    $query = $db->query("SELECT id,email,activity_title,activity_desc,organizer_name,startdate,start_time,end_date,
+    $query = $db->query("SELECT id,email,activity_title,activity_desc,number_participants,organizer_name,startdate,start_time,end_date,
                         end_time,venue,meeting_link,admin_remarks,activity_status,
                         transaction_number,resources,activity_mode,activity_id FROM reservations WHERE id = ".$_COOKIE['res_id']);
 
@@ -265,6 +266,7 @@ function edit_event(){
                                             'end_time' => $r->end_time,
                                             'activity_title' => $r->activity_title,
                                             'activity_desc' => $r->activity_desc,
+                                            'number_participants' => $r->number_participants,
                                             'organizer_name'=> $r->organizer_name,
                                             'status' => $r->activity_status,
                                             'transaction_id' => $r->transaction_number,
