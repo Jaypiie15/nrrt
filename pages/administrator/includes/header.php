@@ -6,7 +6,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="icon" href="images/favicon.ico" type="image/ico" />
+		<link rel="icon" href="build/images/company_logo.png" type="image/ico" />
+
 
     <title>NMIS | RRT </title>
     <?php
@@ -56,7 +57,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="index" class="site_title"><i class="fa fa-users"></i> <span>NRRT</span></a>
+              <a href="dashboard" class="site_title"><i class="fa fa-users"></i> <span>NRRT</span></a>
             </div>
 
             <div class="clearfix"></div>
