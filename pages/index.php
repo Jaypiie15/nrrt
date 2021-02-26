@@ -24,11 +24,35 @@
               <img src='build/images/loading.gif' width='300px' height='300px'>
             </div>
                   <div class="x_content">
-                      
+ 
                   <div class='calendar-parent col-md-6' style="height:730px">
-                  
+                  <div class="calendar_loader" style="display:none;">
+                      <div class="wrapper">
+                        <div class="wrapper-cell">
+                          <div class="text">
+                            <div class="text-line"> </div>
+                            <div class="text-line"></div>
+                            <div class="text-line"></div>
+                            <div class="text-line"></div>
+                            <div class="text-line"></div>
+                            <div class="text-line"></div>
+                            <div class="text-line"></div>
+                            <div class="text-line"></div>
+                            <div class="text-line"></div>
+                            <div class="text-line"></div>
+                            <div class="text-line"></div>
+                            <div class="text-line"></div>
+                            <div class="text-line"></div>
+                            <div class="text-line"></div>
+                            <div class="text-line"></div>
+                            <div class="text-line"></div>
+                          </div>
+                        </div>
+                      </div>
+                      </div>
+
                   <div id='calendars'></div>
-                  
+
                     </div>
                     <div class="col-md-6">
                         
@@ -336,7 +360,16 @@
           url : 'redirect',
           data : { function : 'fetch_events'},
           dataType: "json",
+          beforeSend: function () {
+
+                        $('#calendar_loader').show();
+                        $('#calendar').hide();
+
+                },
       success : function(res){
+
+        $('#calendar_loader').hide();
+        $('#calendar').show();
             var calendar = $('#calendars').fullCalendar({
               themeSystem: 'bootstrap3',
               header: {
@@ -345,6 +378,17 @@
                 right: false
               },
               height: 'parent',
+              loading: function (isLoading) {
+                    if (isLoading) {
+                      $('#calendar_loader').show();
+                        $('#calendar').hide();
+                    }
+                    else {                
+                      $('#calendar_loader').hide();
+                       $('#calendar').show();
+                    }
+                },
+
 
         eventClick: function (calEvent, jsEvent, view) {
 
