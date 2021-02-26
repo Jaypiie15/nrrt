@@ -362,14 +362,13 @@
           dataType: "json",
           beforeSend: function () {
 
-                        $('#calendar_loader').show();
-                        $('#calendar').hide();
-
-                },
+            $('.calendar_loader').show();
+                 
+            },
       success : function(res){
 
-        $('#calendar_loader').hide();
-        $('#calendar').show();
+        $('.calendar_loader').hide();
+
             var calendar = $('#calendars').fullCalendar({
               themeSystem: 'bootstrap3',
               header: {
@@ -378,16 +377,6 @@
                 right: false
               },
               height: 'parent',
-              loading: function (isLoading) {
-                    if (isLoading) {
-                      $('#calendar_loader').show();
-                        $('#calendar').hide();
-                    }
-                    else {                
-                      $('#calendar_loader').hide();
-                       $('#calendar').show();
-                    }
-                },
 
 
         eventClick: function (calEvent, jsEvent, view) {

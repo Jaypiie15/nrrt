@@ -55,7 +55,30 @@
                 </div>
 
                   <div class='calendar-parent col-md-6' style="height:730px">
-                  
+                  <div class="calendar_loader" style="display:none;">
+                      <div class="wrapper">
+                        <div class="wrapper-cell">
+                          <div class="text">
+                            <div class="text-line"> </div>
+                            <div class="text-line"></div>
+                            <div class="text-line"></div>
+                            <div class="text-line"></div>
+                            <div class="text-line"></div>
+                            <div class="text-line"></div>
+                            <div class="text-line"></div>
+                            <div class="text-line"></div>
+                            <div class="text-line"></div>
+                            <div class="text-line"></div>
+                            <div class="text-line"></div>
+                            <div class="text-line"></div>
+                            <div class="text-line"></div>
+                            <div class="text-line"></div>
+                            <div class="text-line"></div>
+                            <div class="text-line"></div>
+                          </div>
+                        </div>
+                      </div>
+                      </div>
                   <div id='calendars'></div>
                     </div>
                     <div class="col-md-6">
@@ -196,7 +219,15 @@
           url : 'redirect',
           data : { function : 'fetch_events'},
           dataType: "json",
-      success : function(res){
+          beforeSend: function () {
+
+            $('.calendar_loader').show();
+                
+            },
+            success : function(res){
+
+            $('.calendar_loader').hide();
+            
             var calendar = $('#calendars').fullCalendar({
               themeSystem: 'bootstrap3',
               header: {

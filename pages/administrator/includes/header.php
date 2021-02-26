@@ -48,6 +48,66 @@
         .fc-event {
             background-color : #99dacb;
         }
+
+        .wrapper {
+            margin: 30px;
+            padding: 30px;
+            background: #fff;
+            width: 360px;
+            height: 640px;
+            display: flex;
+            flex-direction: column;
+          }
+
+          .wrapper-cell {
+            display: flex;
+            margin-bottom: 30px;
+          }
+
+          @-webkit-keyframes placeHolderShimmer {
+            0% {
+              background-position: -468px 0;
+            }
+            100% {
+              background-position: 468px 0;
+            }
+          }
+
+          @keyframes placeHolderShimmer {
+            0% {
+              background-position: -468px 0;
+            }
+            100% {
+              background-position: 468px 0;
+            }
+          }
+          .animated-background, .text-line {
+            -webkit-animation-duration: 1.25s;
+                    animation-duration: 1.25s;
+            -webkit-animation-fill-mode: forwards;
+                    animation-fill-mode: forwards;
+            -webkit-animation-iteration-count: infinite;
+                    animation-iteration-count: infinite;
+            -webkit-animation-name: placeHolderShimmer;
+                    animation-name: placeHolderShimmer;
+            -webkit-animation-timing-function: linear;
+                    animation-timing-function: linear;
+            background: #f6f6f6;
+            background: linear-gradient(to right, #f6f6f6 8%, #f0f0f0 18%, #f6f6f6 33%);
+            background-size: 800px 104px;
+            height: 96px;
+            position: relative;
+          }
+
+          .text {
+            margin-left: 20px;
+          }
+
+          .text-line {
+            height: 25px;
+            width: 556px;
+            margin: 10px 0;
+        }
     </style>
   </head>
 
