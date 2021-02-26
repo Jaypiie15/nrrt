@@ -35,7 +35,9 @@
     <div>
       <a class="hiddenanchor" id="signup"></a>
       <a class="hiddenanchor" id="signin"></a>
-
+      <div id='loader' style='display: none;position: absolute;z-index: 10;margin-left: 647px;margin-top: 240px;'>
+              <img src='build/images/loading.gif' width='300px' height='300px'>
+            </div>
       <div class="login_wrapper">
         <div class="animate form login_form">
           <section class="login_content">
@@ -83,6 +85,25 @@ $(function(){
 
                           e.preventDefault()
 
+                          if($('#username').val() === ''){
+            
+                              Swal.fire({
+                                  icon: 'error',
+                                  title: 'Email Missing!',
+                                  text: 'Input not complete.'
+                                })
+                            }
+                            else if($('#password').val() === ''){
+                              
+                              Swal.fire({
+                                  icon: 'error',
+                                  title: 'Password Missing!',
+                                  text: 'Input not complete.'
+                                })
+                            }
+
+                        else{
+
                           var form = $('#form_login').serialize();
 
                           $.ajax({
@@ -90,7 +111,13 @@ $(function(){
                             url : 'redirect',
                             dataType : 'json',
                             data : form,
+                            beforeSend : function(){
+                              $("#loader").show();
+
+                            },
                             success : function(res){
+                                $("#loader").hide();
+
                                   if(res.error == 1){
                                         Swal.fire({
                                             icon: 'error',
@@ -106,6 +133,7 @@ $(function(){
                                   }
 
                                 })
+                            }
     
 
   })

@@ -252,6 +252,24 @@ $('.starttime').daterangepicker({
   $('.btn-update').click( e => {
       e.preventDefault();
 
+      if($('#meeting_link').val() === ''){
+            
+            Swal.fire({
+                icon: 'error',
+                title: 'Meeting Link Missing!',
+                text: 'Input not complete.'
+              })
+          }
+          else if($('#admin_remarks').val() === ''){
+            
+            Swal.fire({
+                icon: 'error',
+                title: 'Remarks Missing!',
+                text: 'Input not complete.'
+              })
+          }
+        else{
+
       Swal.fire({
             title: 'Do you want to approve this activity?',
             showCancelButton: true,
@@ -300,7 +318,7 @@ $('.starttime').daterangepicker({
             })
 
 
-
+  }
 
 
 

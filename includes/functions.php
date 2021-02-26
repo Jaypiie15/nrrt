@@ -146,13 +146,13 @@ function fetch_events(){
     global $db;
 
     $fetch = $db->query("SELECT id,division,activity_title,activity_desc,organizer_name,
-                         start_time,end_time,resources,venue,startdate,end_date,activity_mode 
+                         start_time,end_time,resources,venue,startdate,end_date,activity_mode,transaction_number 
                          FROM reservations WHERE activity_status = 'Approved'");
     $rows = array();
     while($r = $fetch->fetch_object()){
         $rows[] = array(
                                 'id' => $r->id,
-                                'title' => $r->activity_title,
+                                'title' => 'RRR No.'.$r->transaction_number. ': ' .$r->activity_title,
                                 'start' => date('Y-m-d',strtotime($r->startdate)),
                                 'end' => date('Y-m-d',strtotime($r->end_date)),
                                 'desc' => $r->activity_desc,

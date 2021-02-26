@@ -5,7 +5,9 @@
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h3>NRRT Calendar <small>Click to view meetings</small></h3>
+                <h3>NRRT Calendar <small></small></h3>
+                <label style="color:red">Click to view meetings</label>
+
               </div>
 
             
@@ -168,7 +170,7 @@
       
                                             </div>
                                         </div>
-                                        <span class="section">Resources ( Please note that you must bring your own Device)</span>
+                                        <span class="section">Resources <label style="color:red"> *Please note that you must bring you own Device </label> </span>
                                         <div class="field item form-group">
                                             <label class="col-form-label col-md-3 col-sm-3  label-align">Please select Peripherals needed <span class="required">*</span></label>
                                             <p style="padding: 5px;">
@@ -485,7 +487,7 @@ $('.btn_submitRequest').click(e =>{
         var form = $('#reservation_form').serialize();
 
                   
-          if($('#email').val() === ''){
+        if($('#email').val() === ''){
             
             Swal.fire({
                 icon: 'error',
@@ -566,7 +568,7 @@ $('.btn_submitRequest').click(e =>{
                         },
                         success : function(resp){
                           $("#loader").hide();
-                          console.log(resp)
+                          // console.log(resp)
                           if(resp.error == 1){
 
                                 Swal.fire({

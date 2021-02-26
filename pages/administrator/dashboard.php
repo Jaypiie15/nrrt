@@ -5,7 +5,8 @@
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h3>NRRT Calendar <small>Click to view meetings</small></h3>
+              <h3>NRRT Calendar <small></small></h3>
+                <label style="color:red">Click to view meetings</label>
               </div>
 
             
@@ -24,27 +25,27 @@
                   <div class="x_content">
                 <div class="col-md-2"></div>
                   <div class="col-md-8">
-                  <div class="row" style="display: inline-block;" >
+                  <div class="row"  >
                     <div class="tile_count">
                       <div class="col-md-2 col-sm-4  tile_stats_count">
-                        <span class="count_top"><i class="fa fa-redo"></i> Pending</span>
-                        <div class="count pending_count"></div>
+                        <span class="count_top" style="color:#ffc107;"><i class="fa fa-redo"></i> Pending</span>
+                        <div class="count pending_count" style="color:#ffc107;"></div>
                       </div>
                       <div class="col-md-2 col-sm-4  tile_stats_count">
-                        <span class="count_top"><i class="fa fa-arrow-circle-up"></i> Follow up</span>
-                        <div class="count followup_count"></div>
+                        <span class="count_top" style="color:#17a2b8;"><i class="fa fa-arrow-circle-up"></i> Follow up</span>
+                        <div class="count followup_count" style="color:#17a2b8;"></div>
                       </div>
                       <div class="col-md-2 col-sm-4  tile_stats_count">
-                        <span class="count_top"><i class="fa fa-check-circle"></i> Approved</span>
-                        <div class="count approved_count"></div>
+                        <span class="count_top green"><i class="fa fa-check-circle"></i> Approved</span>
+                        <div class="count approved_count green"></div>
                       </div>
                       <div class="col-md-2 col-sm-4  tile_stats_count">
-                        <span class="count_top"><i class="fa fa-times"></i> Cancelled</span>
-                        <div class="count cancelled_count"></div>
+                        <span class="count_top" style="color:#dc3545;"><i class="fa fa-times"></i> Cancelled</span>
+                        <div class="count cancelled_count" style="color:#dc3545;"></div>
                       </div>
                       <div class="col-md-2 col-sm-4  tile_stats_count">
-                        <span class="count_top"><i class="fa fa-calendar"></i> Rescheduled</span>
-                        <div class="count rescheduled_count"></div>
+                        <span class="count_top" style="color:#17a2b8;"><i class="fa fa-calendar"></i> Rescheduled</span>
+                        <div class="count rescheduled_count" style="color:#17a2b8;"></div>
                       </div>
                       <div class="col-md-2 col-sm-4  tile_stats_count">
                         <span class="count_top"><i class="fa fa-user"></i> Total</span>
@@ -227,7 +228,7 @@
             success : function(res){
 
             $('.calendar_loader').hide();
-            
+
             var calendar = $('#calendars').fullCalendar({
               themeSystem: 'bootstrap3',
               header: {

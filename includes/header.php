@@ -37,6 +37,10 @@
             background-color : #99dacb;
         }
 
+        .fc-unthemed td.fc-today {
+          background: #e4d376;
+      }
+
         .wrapper {
             margin: 30px;
             padding: 30px;
